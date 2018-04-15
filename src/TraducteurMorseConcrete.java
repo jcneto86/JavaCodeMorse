@@ -13,7 +13,20 @@ public class TraducteurMorseConcrete implements TraducteurMorse {
      * @return L'equivalent en caracteres latins.
      */
     public String toAlpha(String morse) {
-        return "";
+        morse = morse.replaceAll("/", "/ ");
+        String[] morseToConvertir = morse.split("\\s");
+        String morseToReturn = "";
+        for (int i = 0; i < morseToConvertir.length; i++) {
+            for (int j = 0; j < arrayMorse.length; j++) {
+                if (morseToConvertir[i].equals(arrayMorse[j].getMorse())) {
+                    morseToReturn += arrayMorse[j].getAlpha();
+                }
+            }
+            if (morseToConvertir[i].equals("/")) {
+                morseToReturn += " ";
+            }
+        }
+        return morseToReturn;
     }
 
     /**
@@ -28,6 +41,7 @@ public class TraducteurMorseConcrete implements TraducteurMorse {
      */
     public String toMorse(String alpha) {
         String arrayToConvertir = nettoyerAlpha(alpha);
+        System.out.println(arrayToConvertir);
         String alphaToReturn = "";
         for (int i = 0; i < arrayToConvertir.length(); i++) {
             char g = arrayToConvertir.charAt(i);
@@ -35,6 +49,11 @@ public class TraducteurMorseConcrete implements TraducteurMorse {
                 if (g == arrayMorse[j].getAlpha()) {
                     alphaToReturn += arrayMorse[j].getMorse();
                 }
+            }
+            if (" ".equals(String.valueOf(arrayToConvertir.charAt(i)))) {
+                alphaToReturn += "/";
+            } else {
+                alphaToReturn += " ";
             }
         }
         return alphaToReturn;
